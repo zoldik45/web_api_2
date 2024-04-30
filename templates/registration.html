@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Создание бизнес ланча</title>
+</head>
+<body>
+    <h1>Создание бизнес ланча</h1>
+    <form action="/create_lunch" method="POST">
+        <label for="first_dish">Первое блюдо:</label>
+        <select name="first_dish" id="first_dish">
+            {% for dish in dishes %}
+                <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="second_dish">Второе блюдо:</label>
+        <select name="second_dish" id="second_dish">
+            {% for dish in dishes %}
+                <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="dessert">Десерт:</label>
+        <select name="dessert" id="dessert">
+            {% for dish in dishes %}
+                <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="drink">Напиток:</label>
+        <select name="drink" id="drink">
+            {% for dish in dishes %}
+                <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Создать Ланч">
+    </form>
+</body>
+</html>

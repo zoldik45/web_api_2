@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="catalog">
+        <div class="product">
+            <img src="https://u2.9111s.ru/uploads/202302/03/7969ce5c6aacd2fddbef7d5ad563edb1.jpg" alt="Люля">
+            <h3>Люля</h3>
+            <p>Люля-кебаб – продолговатая «котлета» из рубленного мяса, обжаренная на шампуре.</p>
+            <input type="number" id="quantity1" value="1">
+            <button onclick="addToDatabase('Люля', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+        <div class="product">
+            <img src="path_to_image1.jpg" alt="Котлеты">
+            <h3>Котлеты</h3>
+            <p>Вкусные куриные котлеты</p>
+            <input type="number" id="quantity2" value="1">
+            <button onclick="addToDatabase('Котлеты', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+        <div class="product">
+            <img src="path_to_image1.jpg" alt="Борщ">
+            <h3>Борщ</h3>
+            <p>Традиционный русский красный борщ</p>
+            <input type="number" id="quantity3" value="1">
+            <button onclick="addToDatabase('Борщ', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+        <div class="product">
+            <img src="path_to_image1.jpg" alt="Пюре">
+            <h3>Пюре</h3>
+            <p>Толчённая кортошка - толчёнка</p>
+            <input type="number" id="quantity4" value="1">
+            <button onclick="addToDatabase('Пюре', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+        <div class="product">
+            <img src="path_to_image1.jpg" alt="Салат овощной">
+            <h3>Салат овощной</h3>
+            <p>Салат из грубо рубленный овощей</p>
+            <input type="number" id="quantity5" value="1">
+            <button onclick="addToDatabase('Салат овощной', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+        <div class="product">
+            <img src="path_to_image1.jpg" alt="Тирамису">
+            <h3>Тирамису</h3>
+            <p>итальянский десерт со вкусом кофе</p>
+            <input type="number" id="quantity6" value="1">
+            <button onclick="addToDatabase('Тирамису', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+        <div class="product">
+            <img src="path_to_image1.jpg" alt="Напитки">
+            <h3>Напитки</h3>
+            <p>Различные напитки, начиная от сока, заканчивая водой</p>
+            <input type="number" id="quantity7" value="1">
+            <button onclick="addToDatabase('Напитки', document.getElementById('quantity1').value)">Добавить в базу данных</button>
+        </div>
+
+        <!-- Добавьте сюда код для остальных товаров -->
+
+    </div>
+    <script>
+        function addToDatabase(item, quantity) {
+    // Здесь нужно код для отправки данных на сервер, используя AJAX или другие методы
+    console.log('Добавлен товар:', item);
+    console.log('Количество:', quantity);}
+    </script>
+</body>
+</html>

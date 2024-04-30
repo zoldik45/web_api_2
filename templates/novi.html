@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Добавление нового блюда в каталог блюд</title>
+  <style>
+    body {
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #2d0909;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 13px;
+      width: 500px;
+      text-align: center;
+    }
+
+    label, input, textarea {
+      display: block;
+      margin-bottom: 10px;
+      color: black;
+      text-align: left;
+    }
+
+    input[type="text"], input[type="number"], textarea {
+      width: calc(100% - 16px); /* Adjusted width to account for padding */
+      color: black;
+      padding: 8px;
+      margin-bottom: 20px;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-evenly; /* Distributes space evenly between the buttons */
+      padding: 10px 0;
+    }
+
+    .button {
+      background-color: #048fda;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .button:nth-child(2) {
+      background-color: #048fda; /* A different color for the second button */
+    }
+
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1><strong>Добавление нового блюда в каталог блюд</strong></h1>
+    <form method="post" action="/form_sample" id="dishForm">
+      <label for="dishName">Введите название блюда:</label>
+      <input type="text" id="dishName" name="dishName" required>
+
+      <label for="dishDescription">Введите описание блюда:</label>
+      <textarea id="dishDescription" name="dishDescription" required></textarea>
+
+      <label for="dishPrice">Цена:</label>
+      <input type="number" id="dishPrice" name="dishPrice" required>
+
+      <div class="buttons-container">
+        <input type="submit" value="Добавить в базу данных" class="button" name="submit">
+      </div>
+    </form>
+    <div class="buttons-container">
+      <a href="http://127.0.0.1:8080/formalancha" class="button">Создать бизнес ланч</a>
+    </div>
+
+<h1><strong>Удаление блюда из каталога</strong></h1>
+    <form method="post" action="/delete_dish" id="deleteForm">
+      <label for="deleteDish">Выберите блюдо для удаления:</label>
+      <select name="deleteDish" id="deleteDish">
+        {% for dish in dishes %}
+          <option value="{{ dish[0] }}" >{{ dish[0] }}</option>
+        {% endfor %}
+      </select>
+      <div class="buttons-container">
+        <input type="submit" value="Удалить из базы данных" class="button" name="submit">
+      </div>
+    </form>
+  </div>
+</body>
+</html>
