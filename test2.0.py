@@ -1,4 +1,6 @@
-import sqlite3
+import sqlite3, os
+from werkzeug.utils import secure_filename
+from peewee import *
 
 from flask import Flask, url_for
 from flask import request, redirect
@@ -6,7 +8,9 @@ from flask import render_template
 import webbrowser
 
 
+data_base = SqliteDataBase('bluda.db')
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'static/img'
 
 def get_dishes():
     conn = sqlite3.connect('bluda.db')
@@ -15,7 +19,6 @@ def get_dishes():
     dishes = cursor.fetchall()
     conn.close()
     return dishes
-
 
 
 
@@ -37,6 +40,31 @@ def add_lunch_to_database(first_dish, second_dish, dessert, drink, lunch_price):
     cursor.execute("INSERT INTO lanchi (pervoe, vtoroe, desert, napitochek, cenna) VALUES (?, ?, ?, ?, ?)", (first_dish, second_dish, dessert, drink, lunch_price))
     conn.commit()
     conn.close()
+
+
+def get_db_connection():
+    conn = sqlite3.connect('photo).db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@app.route('/reg', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['photo']
+        if file:
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)  # Сохранить файл локально (не обязательно)
+
+            # Сохранить путь к файлу в базу данных
+            conn = get_db_connection()
+            conn.execute('INSERT INTO hahah (privet) VALUES (?)', (file_path,))
+            conn.commit()
+            conn.close()
+
+            return redirect(url_for('upload_file'))
+
+    return render_template('upload.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -65,11 +93,24 @@ def create_lunch():
     dishes = [first_dish, second_dish, dessert]
     lunch_price = calculate_lunch_price(dishes)
     add_lunch_to_database(first_dish, second_dish, dessert, drink, lunch_price)
-    return webbrowser.open_new_tab('http://127.0.0.1:8080/')
+    return webbrowser.open_new_tab('http://127.0.0.1:8080/form_sample')
 
 
 
-
+@app.route('/add_dish', methods=['POST'])
+def add_dish():
+    print('))))')
+    if request.method == 'POST':
+        c = request.form['dishName']
+        d = request.form['dishDescription']
+        e = request.form['dishPrice']
+        print(')))))')
+        with sqlite3.connect('bluda.db') as db:
+            cursor = db.cursor()
+            query_25 = """INSERT INTO eda (name, opisanie, cena) VALUES (?, ?, ?)"""
+            cursor.execute(query_25, (c, d, e))
+            db.commit()
+            return render_template('base.html')
 
 
 @app.route('/form_sample', methods=['POST', 'GET'])
@@ -81,41 +122,32 @@ def form_sample():
         c = request.form['dishName']
         d = request.form['dishDescription']
         e = request.form['dishPrice']
-        dish_to_delete = request.form['deleteDish']
-        print("1")
         if request.form['submit'] == 'Добавить в базу данных':
-            print('2')
             with sqlite3.connect('bluda.db') as db:
                 cursor = db.cursor()
                 query_1 = """INSERT INTO eda (name, opisanie, cena) VALUES (?, ?, ?)"""
                 cursor.execute(query_1, (c, d, e))
                 db.commit()
-                return 'Данные успешно добавлены в базу данных'
-        elif request.form['submit'] == 'Удалить из базы данных':
-            print('3')
-            with sqlite3.connect('bluda.db') as db:
-                cursor = db.cursor()
-                query_2 = """DELETE FROM eda where name = ?"""
-                cursor.execute(query_2, (dish_to_delete,))
-                db.commit()
-                return 'ewdddscsddcdscsd'
+            return render_template('add_dish.html')
+        elif request.form['submit'] == 'Создать бизнес ланч':
+            return webbrowser.open_new_tab('http://127.0.0.1:8080')
         return 'ewdddscsddcdscsd'
 
-       # elif request.form['submit'] == 'Создать бизнес ланч':
-           # return webbrowser.open_new_tab('')
+
+
 
 @app.route('/delete_dish', methods=['POST', 'GET'])
 def deleteThisDish():
+    print('))))))))))))))))))))))))))))')
     if request.method == 'POST':
         dish_to_delete = request.form['deleteDish']
-        print('ёп', dish_to_delete)
-        print(request.form)
+        print('))))))))))))))))))))))))))))')
         with sqlite3.connect('bluda.db') as db:
             cursor = db.cursor()
             query_2 = """DELETE FROM eda where name = ?"""
             cursor.execute(query_2, (dish_to_delete,))
             db.commit()
-            return 'ewdddscsddcdscsd'
+            return render_template('base.html')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -123,67 +155,76 @@ def adminreg():
     if request.method == 'GET':
         # Ниже HTML-строка возвращается прямо внутри функции
         return '''
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация пользователя</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .registration-form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box; /* Added box-sizing */
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #c7ad04;
-            color: white;
-            text-transform: uppercase;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #4cae4c;
-        }
-        .registration-form h2 {
-            text-align: center;
-            margin: 0 0 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="registration-form">
-        <h2>Регистрация</h2>
-        <form action="/register" method="post">
-            <input type="text" name="username" placeholder="Логин" required>
-            <input type="password" name="password" placeholder="Пароль" required>
-            <input type="submit" value="Зарегистрироваться">
-        </form>
-    </div>
-</body>
-</html>
-        '''
+                        <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                    <link rel="stylesheet"
+                          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+                          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+                          crossorigin="anonymous">
+                    <title>Регистрация пользователя</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f7f7f7;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }
+                        .registration-form {
+                            background-color: #fff;
+                            padding: 20px;
+                            border-radius: 5px;
+                            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                        }
+                        input[type="text"], input[type="password"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin: 10px 0;
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                            box-sizing: border-box; /* Added box-sizing */
+                        }
+                        input[type="submit"] {
+                            width: 100%;
+                            padding: 10px;
+                            border: none;
+                            background-color: #c7ad04;
+                            color: white;
+                            text-transform: uppercase;
+                            border-radius: 4px;
+                            cursor: pointer;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #4cae4c;
+                        }
+                        .registration-form h2 {
+                            text-align: center;
+                            margin: 0 0 15px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="registration-form">
+                        <form action="/register" method="post">
+                        <header>
+                    <nav class="navbar navbar-light bg-light d-flex justify-content-center">
+                        <h2>Регистрация</h2>
+                </nav>
+                </header>
+                            <input type="text" name="username" placeholder="Логин" required>
+                            <input type="password" name="password" placeholder="Пароль" required>
+                            <input type="submit" value="Зарегистрироваться">
+                        </form>
+                    </div>
+                </body>
+                </html>
+                        '''
     elif request.method == 'POST':
         u = request.form['username']
         o = request.form['password']

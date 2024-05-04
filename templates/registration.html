@@ -1,7 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilek.css') }}" />
     <title>Создание бизнес ланча</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label, select, input {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
     <h1>Создание бизнес ланча</h1>
@@ -12,29 +36,29 @@
                 <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
             {% endfor %}
         </select>
-        <br><br>
+
         <label for="second_dish">Второе блюдо:</label>
         <select name="second_dish" id="second_dish">
             {% for dish in dishes %}
                 <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
             {% endfor %}
         </select>
-        <br><br>
+
         <label for="dessert">Десерт:</label>
         <select name="dessert" id="dessert">
             {% for dish in dishes %}
                 <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
             {% endfor %}
         </select>
-        <br><br>
+
         <label for="drink">Напиток:</label>
         <select name="drink" id="drink">
             {% for dish in dishes %}
                 <option value="{{ dish[0] }}">{{ dish[0] }} - {{ dish[1] }} руб.</option>
             {% endfor %}
         </select>
-        <br><br>
-        <input type="submit" value="Создать Ланч">
+
+        <button type="submit">Создать Ланч</button>
     </form>
 </body>
 </html>

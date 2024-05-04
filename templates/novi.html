@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
 <head>
   <title>Добавление нового блюда в каталог блюд</title>
@@ -61,14 +60,36 @@
     .button:nth-child(2) {
       background-color: #048fda; /* A different color for the second button */
     }
+    .centered {
+            position: fixed;
+            top: 50%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    .center {
+            position: fixed;
+            top: 50%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    .cent {
+            position: fixed;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
 
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h1><strong>Добавление нового блюда в каталог блюд</strong></h1>
-    <form method="post" action="/form_sample" id="dishForm">
-      <label for="dishName">Введите название блюда:</label>
+    <div class="centered">
+      <h1><strong>Добавление нового блюда в каталог блюд</strong></h1>
+      <form method="post" action="/form_sample" id="dishForm">
+        <label for="dishName">Введите название блюда:</label>
       <input type="text" id="dishName" name="dishName" required>
 
       <label for="dishDescription">Введите описание блюда:</label>
@@ -80,23 +101,28 @@
       <div class="buttons-container">
         <input type="submit" value="Добавить в базу данных" class="button" name="submit">
       </div>
-    </form>
-    <div class="buttons-container">
-      <a href="http://127.0.0.1:8080/formalancha" class="button">Создать бизнес ланч</a>
-    </div>
-
-<h1><strong>Удаление блюда из каталога</strong></h1>
-    <form method="post" action="/delete_dish" id="deleteForm">
-      <label for="deleteDish">Выберите блюдо для удаления:</label>
-      <select name="deleteDish" id="deleteDish">
-        {% for dish in dishes %}
-          <option value="{{ dish[0] }}" >{{ dish[0] }}</option>
-        {% endfor %}
-      </select>
+      </form>
+      </div>
+    <div class="cent">
       <div class="buttons-container">
-        <input type="submit" value="Удалить из базы данных" class="button" name="submit">
+      <a href="http://127.0.0.1:8080" class="button">Создать бизнес ланч</a>
+    </div>
+      </div>
+
+  <div class="center">
+  <h1><strong>Удаление блюда из каталога</strong></h1>
+      <form method="post" action="/delete_dish" id="deleteForm">
+        <label for="deleteDish">Выберите блюдо для удаления:</label>
+        <select name="deleteDish" id="deleteDish">
+          {% for dish in dishes %}
+            <option value="{{ dish[0] }}" >{{ dish[0] }}</option>
+          {% endfor %}
+        </select>
+        <div class="buttons-container">
+          <input type="submit" value="Удалить из базы данных" class="button" name="submit">
       </div>
     </form>
+    </div>
   </div>
 </body>
 </html>
