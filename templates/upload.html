@@ -2,21 +2,59 @@
 <html>
 <head>
     <title>Форма для отправки</title>
+    <style>
+        .centered {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            }
+        .center {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .cent {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .cen {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="container mt-5">
+        <div class="centered">
         <h1 class="text-center">Загрузка рецептов и фото блюд</h1>
+            </div>
 
         <div class="green-form">
             <form method="POST" enctype="multipart/form-data">
+            <div class="center">
                 <p>Приложите фотографию</p>
+                </div>
+                <div class="cent">
                 <input type="file" name="photo" class="form-control-file mt-2">
                 {% if filepath %}
                     <img src="{{ filepath }}" class="img-fluid mt-3" alt="Фото не выбрано">
                 {% endif %}
+                    </div>
+                <div class="cen">
                 <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+                    </div>
             </form>
         </div>
     </div>
